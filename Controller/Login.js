@@ -18,6 +18,7 @@ const signUp = async (req,resp)=>{
         password: req.body.password
     }
     const res = new model(obj);
+    res = await res.save();
     const token = jwt.sign(obj,key);
     if(res){
         resp.status(201).send({
