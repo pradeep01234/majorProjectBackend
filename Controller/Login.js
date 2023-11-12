@@ -33,12 +33,14 @@ const signUp = async (req,resp)=>{
 }
 
 const verifyToken = (req,resp)=>{
-    const decode = jwt.verify(req.body.token,key);
+    const token = req.headers['authorization'];
+    const decode = jwt.verify(token,key);
     if(decode){
         resp.send({status: true})
     }else{
         resp.send({staus: false})
     }
+    console.log(decode);
 }
 
 const login =async (req,resp)=>{
