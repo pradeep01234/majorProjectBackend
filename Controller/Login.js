@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const {SignUpModel} = require("../Model/SignUpModel");
 const jwt = require('jsonwebtoken'); 
-const key = "hi"
+const key = "mera_major_project"
 mongoose.connect('mongodb+srv://rahulraj6263707:Pradeep123@studentlms.jr2y1tc.mongodb.net/?retryWrites=true&w=majority',
 {
     useNewUrlParser: true,
@@ -50,10 +50,10 @@ const login =async (req,resp)=>{
     }
     if(await model.find(obj)){
         const token = jwt.sign(obj,key);
+        resp.setHeader("authorization",token);
         resp.status(201).send({
-            token: token
+            token: "please fetch it from header"
         })
-        //console.log(jwt.verify(token,key));
     }
    
 }
