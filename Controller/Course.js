@@ -16,4 +16,13 @@ const fetchCourse =async (req,resp)=>{
     resp.send(responce?"done":"error");
 }
 
-module.exports.fetchCourse=fetchCourse;
+const sendCourseContent =async (req,resp)=>{
+    resp.send(await model.find({}));
+}
+
+
+
+module.exports={
+    fetchCourse: fetchCourse,
+    sendCourseContent: sendCourseContent
+};
