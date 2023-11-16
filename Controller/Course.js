@@ -49,7 +49,7 @@ const aiHelp = async (req,resp)=>{
       model: "text-curie-001",
       prompt: `${question}\n\n\n\n\n\n`,
       temperature: 0,
-      max_tokens: 700,
+      max_tokens: 2000,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
