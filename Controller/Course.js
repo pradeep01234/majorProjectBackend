@@ -1,7 +1,7 @@
+const {OpenAI} = require("openai")
 const {mongoose} = require("./config");
 const {CourseModel,enrolledCouses} = require("../Model/CourseModel");
 const jwt = require("jsonwebtoken");
-const { response } = require("express");
 require("dotenv").config();
 
 const model = mongoose.model("courses",CourseModel);
@@ -38,9 +38,31 @@ const getAllEnrolledCourses = async (req,resp)=>{
     }
 }
 
+const aiHelp = async (req,resp)=>{
+    const question = req.body.question;
+
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    
+    const response = await openai.completions.create({
+      model: "text-curie-001",
+      prompt: `${question}\n\n\n\n\n\n`,
+      temperature: 0,
+      max_tokens: 700,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+    resp.send(response.choices[0].text);
+}
+
+
+
 
 module.exports={
     fetchCourse: fetchCourse,
     sendCourseContent: sendCourseContent,
-    getAllEnrolledCourses: getAllEnrolledCourses
+    getAllEnrolledCourses: getAllEnrolledCourses,
+    aiHelp:aiHelp
 };
