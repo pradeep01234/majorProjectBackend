@@ -1,7 +1,11 @@
 const {mongoose} = require("./config");
-const {CourseModel} = require("../Model/CourseModel");
+const {CourseModel,enrolledCouses} = require("../Model/CourseModel");
+const jwt = require("jsonwebtoken");
+const { response } = require("express");
+require("dotenv").config();
 
 const model = mongoose.model("courses",CourseModel);
+const enCourseModel = mongoose.model("getEnrolledCourse",enrolledCouses)
 
 const fetchCourse =async (req,resp)=>{
     const object = {
@@ -20,9 +24,23 @@ const sendCourseContent =async (req,resp)=>{
     resp.send(await model.find({}));
 }
 
+const getAllEnrolledCourses = async (req,resp)=>{
+    const token = req.headers['authorization'];
+    const decode = jwt.verify(token, process.env.KEY);
+    const result = await enCourseModel.find({
+        email: decode.email
+    })
+   // console.log(decode);
+    if(result){
+        resp.send(result);
+    }else{
+        resp.send(false);
+    }
+}
 
 
 module.exports={
     fetchCourse: fetchCourse,
-    sendCourseContent: sendCourseContent
+    sendCourseContent: sendCourseContent,
+    getAllEnrolledCourses: getAllEnrolledCourses
 };
