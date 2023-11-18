@@ -48,6 +48,7 @@ const login = async (req, resp) => {
         const token = jwt.sign(obj, process.env.KEY);
         //resp.setHeader("authorization", token);
         resp.status(201).send({
+            status: true,
             token: token
         })
     }
