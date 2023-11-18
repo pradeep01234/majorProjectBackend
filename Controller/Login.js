@@ -46,9 +46,9 @@ const login = async (req, resp) => {
     }
     if (await model.find(obj)) {
         const token = jwt.sign(obj, process.env.KEY);
-        resp.setHeader("authorization", token);
+        //resp.setHeader("authorization", token);
         resp.status(201).send({
-            token: "please fetch it from header"
+            token: token
         })
     }
 }
